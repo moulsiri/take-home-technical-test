@@ -11,3 +11,7 @@ slowapi
 python-multipart
 python-dotenv
 email-validator
+pytest
+pytest-asyncio
+httpx
+aiosqlite

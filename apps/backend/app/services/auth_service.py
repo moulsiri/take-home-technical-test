@@ -30,7 +30,7 @@ async def handle_login_payload(user: User, response: Response, db: AsyncSession)
     response.set_cookie("accessToken", acc_token, httponly=True, samesite="lax", secure=sec, max_age=15*60)
     response.set_cookie("refreshToken", ref_token, httponly=True, samesite="lax", secure=sec, max_age=7*24*60*60)
 
-    return {"message": "Success", "accessToken": acc_token, "refreshToken": ref_token}
+    return {"message": "Success"}
 
 async def register_new_user(user_data: UserCreate, response: Response, db: AsyncSession):
     result = await db.execute(select(User).where(User.email == user_data.email))
