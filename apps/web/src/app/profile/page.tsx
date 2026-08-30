@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 
 export default function Profile() {
-  const { user, login } = useAuthStore();
+  const { user, login, logout } = useAuthStore();
   const [loading, setLoading] = useState(!user);
   const router = useRouter();
 
@@ -14,14 +14,19 @@ export default function Profile() {
     async function loadProfile() {
       if (user) return;
       try {
-        const res = await fetchApi("/users/profile");
+        const res = await fetchApi("/auth/me");
         if (res.ok) {
           const data = await res.json();
           login(data);
         } else {
+          // Fallback if interceptor didn't navigate
+          await fetchApi("/auth/logout", { method: "POST" });
+          logout();
           router.push("/login");
         }
       } catch (e) {
+        await fetchApi("/auth/logout", { method: "POST" });
+        logout();
         router.push("/login");
       } finally {
         setLoading(false);

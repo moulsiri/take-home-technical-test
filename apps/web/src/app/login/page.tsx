@@ -34,7 +34,7 @@ export default function Login() {
       
       // We don't have the user object in the auth response, let's fetch profile
       // or we can decode token
-      const profileRes = await fetchApi("/users/profile");
+      const profileRes = await fetchApi("/auth/me");
       if (profileRes.ok) {
         const user = await profileRes.json();
         login(user);

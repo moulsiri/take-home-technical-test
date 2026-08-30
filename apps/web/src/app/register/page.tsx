@@ -34,7 +34,7 @@ export default function Register() {
       const data = await res.json();
 
       
-      const profileRes = await fetchApi("/users/profile");
+      const profileRes = await fetchApi("/auth/me");
       if (profileRes.ok) {
         const user = await profileRes.json();
         login(user);

@@ -13,7 +13,7 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
     credentials: 'include',
   });
 
-  if (res.status === 401 && endpoint !== '/auth/refresh' && endpoint !== '/auth/login' && endpoint !== '/auth/register' && endpoint !== '/auth/me') {
+  if (res.status === 401 && endpoint !== '/auth/refresh' && endpoint !== '/auth/login' && endpoint !== '/auth/register') {
     // try to refresh token
     const refreshRes = await fetch(`${API_URL}/auth/refresh`, {
       method: 'POST',
@@ -25,6 +25,8 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
       // retry original request
       return fetch(`${API_URL}${endpoint}`, { ...options, headers, credentials: 'include' });
     } else {
+      // Clear poisoned cookies dynamically
+      await fetch(`${API_URL}/auth/logout`, { method: "POST", credentials: "include" });
       if (typeof window !== 'undefined') window.location.href = '/login';
     }
   }
