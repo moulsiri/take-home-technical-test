@@ -30,8 +30,7 @@ export default function Login() {
       }
 
       const data = await res.json();
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+
       
       // We don't have the user object in the auth response, let's fetch profile
       // or we can decode token
@@ -78,8 +77,11 @@ export default function Login() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               <label className="text-sm font-medium" htmlFor="password">Password</label>
+              <Link href="/forgot-password" className="text-xs font-semibold text-blue-600 hover:underline">
+                Forgot password?
+              </Link>
             </div>
             <input
               id="password"

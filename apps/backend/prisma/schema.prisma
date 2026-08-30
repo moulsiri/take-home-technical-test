@@ -18,6 +18,11 @@ model User{
     email            String       @unique
     passwordHash     String       @map("password_hash")
     role             Role         @default(USER)
+    isVerified       Boolean      @default(false)
+    resetPasswordToken String?
+    resetPasswordExpires DateTime?
+    verificationToken String?
+
     createdAt        DateTime     @default(now()) @map("created_at")
     updatedAt        DateTime     @updatedAt @map("updated_at")
 

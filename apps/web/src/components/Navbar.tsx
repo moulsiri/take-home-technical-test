@@ -16,8 +16,6 @@ export function Navbar() {
       console.error(e);
     }
     logout();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
     router.push("/login");
   };
 

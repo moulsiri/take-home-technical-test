@@ -32,8 +32,7 @@ export default function Register() {
       }
 
       const data = await res.json();
-      localStorage.setItem("accessToken", data.accessToken);
-      localStorage.setItem("refreshToken", data.refreshToken);
+
       
       const profileRes = await fetchApi("/users/profile");
       if (profileRes.ok) {
