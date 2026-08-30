@@ -35,6 +35,11 @@ async def get_current_user(request: Request, db: AsyncSession = Depends(get_db))
         
     return user
 
+async def get_current_admin(current_user: User = Depends(get_current_user)):
+    if getattr(current_user.role, "value", current_user.role) != "ADMIN":
+        raise HTTPException(status_code=403, detail="Not authorized, admin access required")
+    return current_user
+
 def mock_send_email(to: str, subject: str, link: str):
     print(f"\n=== MOCK EMAIL ===\nTo: {to}\nSubject: {subject}\nLink: {link}\n==================\n")
 
@@ -184,3 +189,10 @@ async def verify_email(token: str = Query(...), db: AsyncSession = Depends(get_d
     user.verification_token = None
     await db.commit()
     return {"message": "Email verified successfully"}
+
+@router.get("/admin-dashboard")
+async def admin_dashboard(current_user: User = Depends(get_current_admin)):
+    return {
+        "message": "Welcome to the Admin Dashboard",
+        "secretStats": {"active_users": 1420, "revenue": "$45,000"}
+    }
